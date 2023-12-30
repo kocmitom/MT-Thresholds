@@ -1,4 +1,61 @@
 body {
   margin: 0;
   font-family: Poppins;
+  background-color: #233;
+}
+
+.App {
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.Select {
+  display: inline-block;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  min-width: 150pt;
+  color: black;
+}
+
+.Select__menu {
+  font-size: 15pt;
+}
+
+.AccuracyInput {
+  height: 38pt;
+  font-size: 23pt;
+  width: 54pt;
+  margin-left: 0.5em;
+  border-radius: 3pt;
+  border: none;
+}
+
+.AccuracyInput:focus {
+  outline: 2pt solid black;
+}
+
+.Answer {
+  margin-top: 20pt;
+  font-size: 50pt;
+}
+
+#NotificationBar {
+  width: 100%;
+  text-align: center;
+  background-color: white;
+  height: 23pt;
+  position: absolute;
+  top: 0px;
+  color: black;
+  font-size: 15pt;
 }
