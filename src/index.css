@@ -53,7 +53,7 @@ body {
   width: 100%;
   text-align: center;
   background-color: white;
-  height: 23pt;
+  min-height: 23pt;
   position: absolute;
   top: 0px;
   color: black;
