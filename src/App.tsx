@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import { useState } from 'react';
 import Select from 'react-select';
 import './index.css';
@@ -36,9 +35,9 @@ function App() {
         defaultValue={options[0]}
         menuPosition="fixed"
         onChange={(change: any) => {
-          if (id == "metric")
+          if (id === "metric")
             SetMessageIn({ ...MESSAGE_IN, "metric": change.label })
-          else if (id == "dataset")
+          else if (id === "dataset")
             SetMessageIn({ ...MESSAGE_IN, "dataset": change.label })
         }}
         theme={(theme) => ({
@@ -66,7 +65,7 @@ function App() {
 
   let other_metrics = (
     optionsMetrics
-    .filter((x) => x.label != MESSAGE_IN.metric)
+    .filter((x) => x.label !== MESSAGE_IN.metric)
     .map((x) => [x.label, Math.random().toFixed(2)])
     .map((x) => `<li>${x[1]} difference in ${x[0]}</li>`)
   )
