@@ -21,7 +21,7 @@ const optionsDatasets = [
 
 function App() {
   const [MESSAGE_IN, SetMessageIn] = useState({
-    delta: 0.15,
+    delta: 1.25,
     metric: "BLEU",
     dataset: "wmt2020",
   });
@@ -73,7 +73,7 @@ function App() {
 
   let MESSAGE_OUT = `
   <div id="message_out">
-  The system-level ${MESSAGE_IN.delta} ${MESSAGE_IN.metric} differents represent same accuracy as following metrics:
+  The system-level ${MESSAGE_IN.delta} ${MESSAGE_IN.metric} difference represent same accuracy as following metrics:
   <ul>
     <li>${(human_accuracy*100).toFixed(1)}% accuracy with humans</li>
     ${other_metrics.join("\n")}
@@ -89,7 +89,7 @@ function App() {
           className="DeltaInput"
           type="number"
           min="0" max="100" step="0.001"
-          defaultValue="1.000"
+          defaultValue="1.25"
           onInput={(change: any) => {
             SetMessageIn({
               ...MESSAGE_IN,

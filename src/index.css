@@ -33,7 +33,7 @@ body {
 
 .DeltaInput {
   height: 38pt;
-  font-size: 23pt;
+  font-size: 1em;
   width: 80pt;
   margin-left: 0.5em;
   margin-right: 0.5em;
@@ -55,7 +55,7 @@ body {
   text-align: center;
   background-color: white;
   min-height: 23pt;
-  position: absolute;
+  position: fixed;
   bottom: 0px;
   color: black;
   font-size: 12pt;
@@ -69,13 +69,14 @@ body {
 
 #message_out {
   width: 640px;
+  height: 310px;
   font-size: 20pt;
   text-align: left;
   margin-left: auto;
   margin-right: auto;
   font-style: italic;
   background-color: #3a4949;
-  padding: 8px;
+  padding: 15px;
   padding-right: 15px;
   border-radius: 10px;
   border: none;
@@ -85,4 +86,12 @@ body {
   width: 500px;
   margin-left: auto;
   margin-right: auto;
+}
+
+#message_out ul li:not(:first-child) {
+  margin-bottom: -10px;
+}
+
+#message_out ul li:first-child {
+  margin-bottom: 5px;
 }
