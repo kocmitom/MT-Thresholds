@@ -19,36 +19,12 @@ const optionsDatasets = [
   { label: 'mixed', value: 'all' },
 ];
 
-const optionsLangs = [
-  { label: 'X→English', value: 'x_to_en' },
-  { label: 'English→X', value: 'en_to_x' },
-  { label: 'X→X', value: 'x_to_x' },
-  { label: 'Czech→English', value: 'cs_to_en' },
-  { label: 'English→Czech', value: 'en_to_cs' },
-  { label: 'German→English', value: 'de_to_en' },
-  { label: 'English→German', value: 'en_to_de' },
-];
-
 function App() {
-  function RefreshDelta() {
-    // in range [0.2, 0.3]
-    let delta = Math.random() * 0.1 + 0.2
-
-    // in range [4, 6]
-    delta *= 20
-
-    delta *= ((MESSAGE.accuracy - 50) / 50)
-    SetMessageDelta(delta.toFixed(2))
-  }
-
-  const [MESSAGE, SetMessage] = useState({
-    delta: "2.31",
+  const [MESSAGE_IN, SetMessageIn] = useState({
+    delta: 0.15,
     metric: "BLEU",
     dataset: "wmt2020",
-    langs: "x_to_x",
-    accuracy: 90,
   });
-  const [MESSAGE_DELTA, SetMessageDelta] = useState("2.31")
 
   function SelectElement(options: { "label": string, "value": string }[], id: string) {
     return (
@@ -61,11 +37,9 @@ function App() {
         menuPosition="fixed"
         onChange={(change: any) => {
           if (id == "metric")
-            SetMessage({ ...MESSAGE, "metric": change.label })
+            SetMessageIn({ ...MESSAGE_IN, "metric": change.label })
           else if (id == "dataset")
-            SetMessage({ ...MESSAGE, "dataset": change.label })
-          else if (id == "langs")
-            SetMessage({ ...MESSAGE, "langs": change.label })
+            SetMessageIn({ ...MESSAGE_IN, "dataset": change.label })
         }}
         theme={(theme) => ({
           ...theme,
@@ -86,47 +60,62 @@ function App() {
     )
   }
 
+  let human_accuracy = Math.random()
 
-  // Make sure that RefreshDelta is called only once on load
-  // and then whenever message changes
-  useEffect(
-    RefreshDelta,
-    [MESSAGE]
+  console.log(MESSAGE_IN.metric)
+
+  let other_metrics = (
+    optionsMetrics
+    .filter((x) => x.label != MESSAGE_IN.metric)
+    .map((x) => [x.label, Math.random().toFixed(2)])
+    .map((x) => `<li>${x[1]} difference in ${x[0]}</li>`)
   )
+
+  let MESSAGE_OUT = `
+  <div id="message_out">
+  The system-level ${MESSAGE_IN.delta} ${MESSAGE_IN.metric} differents represent same accuracy as following metrics:
+  <ul>
+    <li>${(human_accuracy*100).toFixed(1)}% accuracy with humans</li>
+    ${other_metrics.join("\n")}
+  </ul>
+  </div>
+  `
 
   return (
     <div className="App">
-      <div id="NotificationBar">
-        Careful, the current values are mock only and the project is under active development
-      </div>
       <div className="Question">
-        How much improvement on
-        {SelectElement(optionsMetrics, "metric")}
-        is needed on the
-        {SelectElement(optionsDatasets, "dataset")}
-        dataset on
-        {SelectElement(optionsLangs, "langs")}
-        to get
+        What does improvement of
         <input
-          className="AccuracyInput"
+          className="DeltaInput"
           type="number"
-          min="50" max="100" step="1"
-          defaultValue="90"
+          min="0" max="100" step="0.001"
+          defaultValue="1.000"
           onInput={(change: any) => {
-            SetMessage({
-              ...MESSAGE,
-              "accuracy": Number(change.target.value),
+            SetMessageIn({
+              ...MESSAGE_IN,
+              "delta": Number(change.target.value),
             })
           }
           }
-        ></input>%
-        system-level accuracy with humans?
+        ></input>
+        on
+        {SelectElement(optionsMetrics, "metric")}
+        on the
+        {SelectElement(optionsDatasets, "dataset")}
+        dataset mean?
       </div>
       <div
         className="Answer"
-        dangerouslySetInnerHTML={{ __html: "Required Δ ≥ " + MESSAGE_DELTA + " " + MESSAGE.metric + " points"}}
+        dangerouslySetInnerHTML={{ __html: MESSAGE_OUT }}
       ></div>
+      <div id="DisclaimerBar">
+      ⚠️ Careful, the current values are mock only and the project is under active development ⚠️ <br></br>
+      The accuracy is empirically determined on particular testsets and does not reflect other scenarios.
+      Please read the <a href="https://i.pinimg.com/originals/ee/4e/75/ee4e75ba665a9815156345bf2ec0a026.jpg">paper by Kocmi, Zouhar, Federmann, Post (2024)</a> to see how all of this works.
+      See <a href="https://github.com/zouharvi/mt-metrics-thresholds-web">web code</a>.
+      </div>
     </div>
+
   );
 }
 
