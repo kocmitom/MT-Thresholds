@@ -74,7 +74,7 @@ function App() {
   <div id="message_out">
   The system-level ${MESSAGE_IN.delta} ${MESSAGE_IN.metric} difference represent same accuracy as following metrics:
   <ul>
-    <li>${(human_accuracy*100).toFixed(1)}% accuracy with humans</li>
+    <li>${(human_accuracy*100).toFixed(1)}% accuracy with humans *</li>
     ${other_metrics.join("\n")}
   </ul>
   </div>
@@ -109,7 +109,7 @@ function App() {
       ></div>
       <div id="DisclaimerBar">
       ⚠️ Careful, the current values are mock only and the project is under active development ⚠️ <br></br>
-      The accuracy is empirically determined on particular testsets and does not reflect other scenarios.
+      * The accuracy is empirically determined on particular dataset and does not reflect all scenarios. It mainly allows to compare various metrics and their expected accuracy.
       Please read the <a href="https://i.pinimg.com/originals/ee/4e/75/ee4e75ba665a9815156345bf2ec0a026.jpg">paper by Kocmi, Zouhar, Federmann, Post (2024)</a> to see how all of this works.
       See <a href="https://github.com/zouharvi/mt-metrics-thresholds-web">web code</a>.
       </div>
