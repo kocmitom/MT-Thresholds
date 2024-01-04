@@ -45,11 +45,6 @@ body {
   outline: 2pt solid black;
 }
 
-.Answer {
-  margin-top: 20pt;
-  font-size: 50pt;
-}
-
 #DisclaimerBar {
   width: calc(100% - 10px);
   text-align: center;
@@ -68,13 +63,14 @@ body {
 }
 
 #message_out {
+  margin-top: 20pt;
+  font-size: 50pt;
   width: 640px;
-  height: 310px;
+  height: 360px;
   font-size: 20pt;
   text-align: left;
   margin-left: auto;
   margin-right: auto;
-  font-style: italic;
   background-color: #3a4949;
   padding: 15px;
   padding-right: 15px;
@@ -93,5 +89,56 @@ body {
 }
 
 #message_out ul li:first-child {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+#bibtex_popup {
+  background-color: #ccc;
+  border-radius: 10px;
+  border: none;
+  padding: 2px 0 2px 10px;
+}
+
+#bibtex_button {
+  cursor: pointer;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.question_circle {
+  height: 22pt;
+  position: relative;
+  top: 3pt;
+  left: 10px;
+  cursor: pointer;
+}
+
+#accuracy_popup {
+  width: 370px;
+  background-color: #ccc;
+  border-radius: 10px;
+  border: none;
+  padding: 2px 10px 2px 10px;
+}
+
+.number_sector {
+  width: 100px;
+  display: inline-block;
+  text-align: center;
+}
+
+.label_sector {
+  font-size: 0.9em;
+}
+
+.accuracy_sector {
+  margin-right: 10px;
+}
+
+.metric_sector {
+  margin-left: 15px;
+}
+
+ul {
+  list-style-type: none;
 }

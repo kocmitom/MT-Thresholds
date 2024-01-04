@@ -1,30 +1,58 @@
 import { useState } from 'react';
 import Select from 'react-select';
+import Popup from 'reactjs-popup';
 import './index.css';
+import thresholds from './thresholds.json'
 
 const optionsMetrics = [
   { label: 'BLEU', value: 'bleu' },
   { label: 'ChrF', value: 'chrf' },
   { label: 'COMET<sup>20</sup>', value: 'comet20' },
+  { label: 'COMET<sup>21</sup><sub>QE</sub>', value: 'comet21qe' },
   { label: 'COMET<sup>22</sup>', value: 'comet22' },
+  { label: 'COMETKiwi<sup>22</sup>', value: 'cometkiwi22' },
   { label: 'BLEURT<sup>20</sup>', value: 'bleurt20' },
 ];
 
-const optionsDatasets = [
-  { label: 'WMT 2020', value: 'wmt2020' },
-  { label: 'WMT 2022', value: 'wmt2022' },
-  { label: 'ToShip 1', value: 'toship1' },
-  { label: 'ToShip 2', value: 'toship2' },
-  { label: 'mixed', value: 'all' },
-];
+const BIBTEX = `
+@misc{kocmi2024thresholds,
+  title={TODO Effect Size Thresholds and Implications for Machine Translation Metrics}, 
+  author={Tom Kocmi and Vilém Zouhar and Christian Federmann and Matt Post},
+  year={2024},
+  eprint={TODO},
+  archivePrefix={arXiv},
+  primaryClass={cs.CL}
+}
+`.trim()
+
+const ACCURACY_POPUP = (
+  <Popup trigger={<img src="question_circle.svg" className="question_circle"></img>} position="right center" offsetX={140}>
+      <div id="accuracy_popup">
+      The accuracy is empirically determined on particular dataset and does not reflect all scenarios. It mainly allows to compare various metrics and their expected accuracy.<br></br>
+      As an example accuracy of 80% means, that for 80% of system pairs, the metric would make the same prediction (one system being better than another one) as a human would.
+      </div>
+  </Popup>
+)
+
+function ComputeAccuracy(delta: number, metric: string) : number {
+  // @ts-ignore
+  let [a, b] = thresholds[metric];
+  return a * (1/(1 + Math.pow(Math.E, -b * delta)))
+}
+
+function ComputeDelta(accuracy: number, metric: string) : number {
+  // @ts-ignore
+  let [a, b] = thresholds[metric];
+  return -Math.log(a / accuracy - 1)/b
+}
 
 function App() {
   const [MESSAGE_IN, SetMessageIn] = useState({
     delta: 1.25,
-    metric: "BLEU",
-    dataset: "wmt2020",
+    metric: optionsMetrics[0],
   });
 
+  
   function SelectElement(options: { "label": string, "value": string }[], id: string) {
     return (
       <Select
@@ -35,10 +63,10 @@ function App() {
         defaultValue={options[0]}
         menuPosition="fixed"
         onChange={(change: any) => {
-          if (id === "metric")
-            SetMessageIn({ ...MESSAGE_IN, "metric": change.label })
-          else if (id === "dataset")
-            SetMessageIn({ ...MESSAGE_IN, "dataset": change.label })
+          if (id === "metric") {
+            let metric = optionsMetrics.filter((x) => x.label == change.label)[0]
+            SetMessageIn({ ...MESSAGE_IN, "metric": metric })
+          }
         }}
         theme={(theme) => ({
           ...theme,
@@ -59,26 +87,31 @@ function App() {
     )
   }
 
-  let human_accuracy = Math.random()
-
-  console.log(MESSAGE_IN.metric)
+  let current_accuracy = ComputeAccuracy(MESSAGE_IN.delta, MESSAGE_IN.metric.value)
 
   let other_metrics = (
     optionsMetrics
-    .filter((x) => x.label !== MESSAGE_IN.metric)
-    .map((x) => [x.label, Math.random().toFixed(2)])
-    .map((x) => `<li>${x[1]} difference in ${x[0]}</li>`)
+    .filter((x) => x.label !== MESSAGE_IN.metric.label)
+    .map((x) => [x.label, ComputeDelta(current_accuracy, x.value).toFixed(3)])
+    .map((x) => <li>
+        <span className="number_sector">{x[1]}</span>&nbsp;
+        <span className='label_sector'>difference in</span>&nbsp;
+        <span className="metric_sector" dangerouslySetInnerHTML={{ __html: x[0] as string}}></span>
+      </li>)
   )
 
-  let MESSAGE_OUT = `
+  let MESSAGE_OUT = (
   <div id="message_out">
-  The system-level ${MESSAGE_IN.delta} ${MESSAGE_IN.metric} difference represent same accuracy as following metrics:
-  <ul>
-    <li>${(human_accuracy*100).toFixed(1)}% accuracy with humans *</li>
-    ${other_metrics.join("\n")}
-  </ul>
-  </div>
-  `
+    <div
+      style={{textAlign: 'center'}}
+      dangerouslySetInnerHTML={{ __html: `The system-level ${MESSAGE_IN.delta} ${MESSAGE_IN.metric.label} difference<br>represent same accuracy as following metrics:` }}></div>
+    <ul>
+      <li>
+        <span className="accuracy_sector">{current_accuracy.toFixed(1)}%</span> accuracy with humans {ACCURACY_POPUP}</li>
+      {other_metrics}
+    </ul>
+    </div>
+  )
 
   return (
     <div className="App">
@@ -99,18 +132,16 @@ function App() {
         ></input>
         on
         {SelectElement(optionsMetrics, "metric")}
-        on the
-        {SelectElement(optionsDatasets, "dataset")}
-        dataset mean?
+        mean?
       </div>
-      <div
-        className="Answer"
-        dangerouslySetInnerHTML={{ __html: MESSAGE_OUT }}
-      ></div>
+      {MESSAGE_OUT}
       <div id="DisclaimerBar">
       ⚠️ Careful, the current values are mock only and the project is under active development ⚠️ <br></br>
-      * The accuracy is empirically determined on particular dataset and does not reflect all scenarios. It mainly allows to compare various metrics and their expected accuracy.
       Please read the <a href="https://i.pinimg.com/originals/ee/4e/75/ee4e75ba665a9815156345bf2ec0a026.jpg">paper by Kocmi, Zouhar, Federmann, Post (2024)</a> to see how all of this works.
+      See&nbsp;
+      <Popup trigger={<span id="bibtex_button">BibTeX for citation</span>} position="top center" offsetY={10}>
+        <div id="bibtex_popup"><pre>{BIBTEX}</pre></div>
+      </Popup>.
       See <a href="https://github.com/zouharvi/mt-metrics-thresholds-web">web code</a>.
       </div>
     </div>
