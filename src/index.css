@@ -65,7 +65,7 @@ body {
 #message_out {
   margin-top: 20pt;
   font-size: 50pt;
-  width: 640px;
+  width: 680px;
   height: 360px;
   font-size: 20pt;
   text-align: left;
@@ -84,12 +84,8 @@ body {
   margin-right: auto;
 }
 
-#message_out ul li:not(:first-child) {
+#message_out ul li {
   margin-bottom: -10px;
-}
-
-#message_out ul li:first-child {
-  margin-bottom: 10px;
 }
 
 #bibtex_popup {
@@ -124,7 +120,8 @@ body {
 .number_sector {
   width: 100px;
   display: inline-block;
-  text-align: center;
+  text-align: right;
+  margin-right: 20px;
 }
 
 .label_sector {

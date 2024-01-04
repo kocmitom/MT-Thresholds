@@ -104,10 +104,20 @@ function App() {
   <div id="message_out">
     <div
       style={{textAlign: 'center'}}
-      dangerouslySetInnerHTML={{ __html: `The system-level ${MESSAGE_IN.delta} ${MESSAGE_IN.metric.label} difference<br>represent same accuracy as following metrics:` }}></div>
+      dangerouslySetInnerHTML={{ __html: `The system-level ${MESSAGE_IN.delta} ${MESSAGE_IN.metric.label} difference has:` }}>  
+    </div>
+
+    <div
+      style={{textAlign: 'center', marginBottom: "20px"}}>
+      <span className="accuracy_sector">{current_accuracy.toFixed(1)}%</span> accuracy with humans {ACCURACY_POPUP}
+    </div>
+    
+    <div
+      style={{textAlign: 'center', marginBottom: "-20px"}}>
+      Which is the same as the following metrics:
+    </div>
+    
     <ul>
-      <li>
-        <span className="accuracy_sector">{current_accuracy.toFixed(1)}%</span> accuracy with humans {ACCURACY_POPUP}</li>
       {other_metrics}
     </ul>
     </div>
