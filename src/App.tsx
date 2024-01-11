@@ -6,12 +6,15 @@ import thresholds from './thresholds.json'
 
 const optionsMetrics = [
   { label: 'BLEU', value: 'bleu' },
+  { label: 'spBLEU<sup>200</sup>', value: 'spBLEU200' },
   { label: 'ChrF', value: 'chrf' },
-  { label: 'COMET<sup>20</sup>', value: 'comet20' },
-  { label: 'COMET<sup>21</sup><sub>QE</sub>', value: 'comet21qe' },
-  { label: 'COMET<sup>22</sup>', value: 'comet22' },
-  { label: 'COMETKiwi<sup>22</sup>', value: 'cometkiwi22' },
-  { label: 'BLEURT<sup>20</sup>', value: 'bleurt20' },
+  { label: 'Comet<sup>20</sup>', value: 'comet20' },
+  { label: 'Comet<sup>21</sup><sub>QE</sub>', value: 'comet21qe' },
+  { label: 'Comet<sup>22</sup>', value: 'comet22' },
+  { label: 'CometKiwi<sup>22</sup>', value: 'cometkiwi22' },
+  { label: 'xComet<sup>XXL</sup>', value: 'xcomet-XXL' },
+  { label: 'BLEURT<sup>20</sup>', value: 'bleurt-20' },
+  { label: 'BLEURT<sup>default</sup>', value: 'bleurt-default' },
 ];
 
 const BIBTEX = `
