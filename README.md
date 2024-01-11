@@ -3,7 +3,7 @@
 Web frontend for an undisclosed metrics research project.
 Collaboration of Tom Kocmi, Vilém Zouhar, and others.
 
-See [working version](https://vilda.net/s/mt-metrics-thresholds/).
+See [working version](https://kocmitom.github.io/MT-Thresholds/).
 
 ## TODO
 
@@ -14,3 +14,5 @@ npm install
 npm start # starts local hot-reload dev server
 npm build # builds static artefact
 ```
+
+<!-- npm run deploy -->

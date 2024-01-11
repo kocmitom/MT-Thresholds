@@ -19,7 +19,7 @@ const optionsMetrics = [
 
 const BIBTEX = `
 @misc{kocmi2024thresholds,
-  title={TODO Effect Size Thresholds and Implications for Machine Translation Metrics}, 
+  title={Navigating the Metrics Maze: Score Magnitudes and Implications for Machine Translation Evaluation}, 
   author={Tom Kocmi and Vilém Zouhar and Christian Federmann and Matt Post},
   year={2024},
   eprint={TODO},
@@ -134,7 +134,7 @@ function App() {
           className="DeltaInput"
           type="number"
           min="0" max="100" step="0.001"
-          defaultValue="1.25"
+          defaultValue="1.250"
           onInput={(change: any) => {
             SetMessageIn({
               ...MESSAGE_IN,
