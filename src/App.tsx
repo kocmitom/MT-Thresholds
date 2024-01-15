@@ -154,7 +154,7 @@ function App() {
       <Popup trigger={<span id="bibtex_button">BibTeX for citation</span>} position="top center" offsetY={10}>
         <div id="bibtex_popup"><pre>{BIBTEX}</pre></div>
       </Popup>.
-      See <a href="https://github.com/zouharvi/mt-metrics-thresholds-web">web code</a>.
+      See <a href="https://github.com/kocmitom/MT-Thresholds">code</a>.
       </div>
     </div>
 
