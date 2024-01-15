@@ -27,13 +27,19 @@ body {
   color: black;
 }
 
+.Select__control {
+  height: 50pt;
+  width: 200pt;
+  font-size: 20pt;
+}
+
 .Select__menu {
   font-size: 15pt;
 }
 
 .DeltaInput {
-  height: 38pt;
-  font-size: 1em;
+  height: 50pt;
+  font-size: 22pt;
   width: 80pt;
   margin-left: 0.5em;
   margin-right: 0.5em;
@@ -65,7 +71,7 @@ body {
 #message_out {
   margin-top: 20pt;
   font-size: 50pt;
-  width: 680px;
+  width: 710px;
   height: 460px;
   font-size: 20pt;
   text-align: left;

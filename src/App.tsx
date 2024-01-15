@@ -95,11 +95,11 @@ function App() {
   let other_metrics = (
     optionsMetrics
       .filter((x) => x.label !== MESSAGE_IN.metric.label)
-      .map((x) => [x.label, Math.abs(ComputeDelta(current_accuracy, x.value)).toFixed(x.value === "comet21qe" ? 2 : 1).replace("NaN", "✕")])
+      .map((x) => [x.label, Math.max(0, ComputeDelta(current_accuracy, x.value)).toFixed(x.value === "comet21qe" ? 3 : 2).replace("NaN", "✕")])
       .map((x) => <li>
-        <span className="number_sector">{x[1]}</span>&nbsp;
+        <span className="number_sector">+{x[1]}</span>&nbsp;
         <span className='label_sector'>difference in</span>&nbsp;
-        <span className="metric_sector" dangerouslySetInnerHTML={{ __html: x[0] as string }}></span>
+        <span className="metric_sector" dangerouslySetInnerHTML={{ __html: `${x[0]}`}}></span>
       </li>)
   )
 
@@ -107,7 +107,7 @@ function App() {
     <div id="message_out">
       <div
         style={{ textAlign: 'center' }}
-        dangerouslySetInnerHTML={{ __html: `The system-level ${MESSAGE_IN.delta} ${MESSAGE_IN.metric.label} difference has:` }}>
+        dangerouslySetInnerHTML={{ __html: `The system-level +${MESSAGE_IN.delta.toFixed(MESSAGE_IN.metric.value === "comet21qe" ? 3 : 2)} ${MESSAGE_IN.metric.label} difference has:` }}>
       </div>
 
       <div
@@ -149,6 +149,7 @@ function App() {
       </div>
       {MESSAGE_OUT}
       <div id="DisclaimerBar">
+        All numbers are multiplied by 100 (e.g. BLEU is from 0 to 100). <br></br>
         Please read the <a href="https://arxiv.org/pdf/2401.06760.pdf">paper by Kocmi, Zouhar, Federmann, Post (2024)</a> to see how all of this works.
         See&nbsp;
         <Popup trigger={<span id="bibtex_button">BibTeX for citation</span>} position="top center" offsetY={10}>
