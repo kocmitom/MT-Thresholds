@@ -6,6 +6,10 @@ Work by Tom Kocmi, Vilém Zouhar, Christian Federmann, and Matt Post.
 
 See [Thresholds tool](https://kocmitom.github.io/MT-Thresholds/).
 
+## Code for replicating
+
+We plan to release the code for replicating WMT results in upcoming months.
+
 ## Reference
 
 ```
