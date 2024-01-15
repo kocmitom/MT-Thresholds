@@ -22,7 +22,7 @@ const BIBTEX = `
   title={Navigating the Metrics Maze: Score Magnitudes and Implications for Machine Translation Evaluation}, 
   author={Tom Kocmi and Vilém Zouhar and Christian Federmann and Matt Post},
   year={2024},
-  eprint={TODO},
+  eprint={2401.06760},
   archivePrefix={arXiv},
   primaryClass={cs.CL}
 }
@@ -31,8 +31,8 @@ const BIBTEX = `
 const ACCURACY_POPUP = (
   <Popup trigger={<img src="question_circle.svg" className="question_circle"></img>} position="right center" offsetX={140}>
       <div id="accuracy_popup">
-      The accuracy is empirically determined on particular dataset and does not reflect all scenarios. It mainly allows to compare various metrics and their expected accuracy.<br></br>
-      As an example accuracy of 80% means, that for 80% of system pairs, the metric would make the same prediction (one system being better than another one) as a human would.
+      The accuracy is empirically determined on particular dataset and does not reflect all scenarios. It mainly allows to compare various metrics and their estimated accuracy.<br></br>
+      As an example, accuracy of 80% means, that for 80% of system pairs, the metric would make the same prediction (one system being better than another one) as a human would.
       </div>
   </Popup>
 )
@@ -149,8 +149,7 @@ function App() {
       </div>
       {MESSAGE_OUT}
       <div id="DisclaimerBar">
-      ⚠️ Careful, the current values are mock only and the project is under active development ⚠️ <br></br>
-      Please read the <a href="https://i.pinimg.com/originals/ee/4e/75/ee4e75ba665a9815156345bf2ec0a026.jpg">paper by Kocmi, Zouhar, Federmann, Post (2024)</a> to see how all of this works.
+      Please read the <a href="https://arxiv.org/pdf/2401.06760.pdf">paper by Kocmi, Zouhar, Federmann, Post (2024)</a> to see how all of this works.
       See&nbsp;
       <Popup trigger={<span id="bibtex_button">BibTeX for citation</span>} position="top center" offsetY={10}>
         <div id="bibtex_popup"><pre>{BIBTEX}</pre></div>
