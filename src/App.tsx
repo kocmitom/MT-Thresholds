@@ -149,13 +149,12 @@ function App() {
       </div>
       {MESSAGE_OUT}
       <div id="DisclaimerBar">
-        All numbers are multiplied by 100 (e.g. BLEU is from 0 to 100). <br></br>
+        All scores are multiplied by 100 (e.g. BLEU is from 0 to 100). <br></br>
         Please read the <a href="https://arxiv.org/pdf/2401.06760.pdf">paper by Kocmi, Zouhar, Federmann, Post (2024)</a> to see how all of this works.
-        See&nbsp;
-        <Popup trigger={<span id="bibtex_button">BibTeX for citation</span>} position="top center" offsetY={10}>
+        <Popup trigger={<span id="bibtex_button">BibTeX</span>} position="top center" offsetY={10}>
           <div id="bibtex_popup"><pre>{BIBTEX}</pre></div>
         </Popup>.
-        See <a href="https://github.com/kocmitom/MT-Thresholds">code</a>.
+        <a href="https://github.com/kocmitom/MT-Thresholds">Code</a>.
       </div>
     </div>
 
