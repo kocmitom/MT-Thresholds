@@ -1,4 +1,4 @@
-# <img src="public/favicon.ico" height="30pt"> MT Metrics Thresholds
+# <img src="web-tool/public/favicon.ico" height="30pt"> MT Metrics Thresholds
 
 Code for [Navigating the Metrics Maze: Reconciling Score Magnitudes and Accuracies](https://arxiv.org/pdf/2401.06760.pdf) by Tom Kocmi, Vilém Zouhar, Christian Federmann, and Matt Post.
 ```
