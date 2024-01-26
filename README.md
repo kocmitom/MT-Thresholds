@@ -26,6 +26,26 @@ npm build # builds static artefact
 
 <!-- npm run deploy # to push to gh-pages -->
 
+## [Local tool](https://pypi.org/project/mt-thresholds/)
+
+```bash
+pip3 install mt-thresholds
+
+# accuracy is 63.989%
+mt-thresholds bleu 1.00
+
+# ChrF needs 0.710 difference for the same accuracy as BLEU
+mt-thresholds chrf 0.63989 --delta
+```
+
+Or use from Python:
+```python3
+import mt_thresholds
+
+mt_thresholds.accuracy(1.0, "bleu") # 0.63989
+mt_thresholds.delta(0.63989, "chrf") # 0.665
+```
+
 ## Experiment code
 
 We plan to release the code for replicating WMT results in upcoming months.
