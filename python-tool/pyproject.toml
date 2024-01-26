@@ -1,0 +1,22 @@
+[build-system]
+requires      = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mt-thresholds"
+version = "0.0.2"
+description = "Tool to check how metric deltas for machine translation reflect on system-level human accuracies."
+readme = "README.md"
+authors = [{ name = "Tom Kocmi", email = "tomkocmi@microsoft.com" }, { name = "Vilém Zouhar", email = "vzouhar@ethz.ch" }]
+classifiers = []
+keywords = ["machine-translation", "evaluation"]
+dependencies = []
+requires-python = ">=3.9"
+
+[project.urls]
+Homepage = "https://github.com/kocmitom/MT-Thresholds"
+Demo = "https://kocmitom.github.io/MT-Thresholds"
+
+[project.scripts]
+"mt_thresholds" = "mt_thresholds:cmd_entry"
+"mt-thresholds" = "mt_thresholds:cmd_entry"
