@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: Poppins;
-  background-color: #233;
+  background-color: #344;
 }
 
 .App {
@@ -55,8 +55,8 @@ body {
   width: calc(100% - 10px);
   text-align: center;
   background-color: white;
-  min-height: 23pt;
   position: fixed;
+  min-height: 23pt;
   bottom: 0px;
   color: black;
   font-size: 12pt;
@@ -72,12 +72,13 @@ body {
   margin-top: 20pt;
   font-size: 50pt;
   width: 710px;
-  height: 460px;
+  height: auto;
   font-size: 20pt;
   text-align: left;
   margin-left: auto;
   margin-right: auto;
-  background-color: #3a4949;
+  margin-bottom: 90px;
+  background-color: #566;
   padding: 15px;
   padding-right: 15px;
   border-radius: 10px;
@@ -144,4 +145,12 @@ body {
 
 ul {
   list-style-type: none;
+}
+
+input[type="button"] {
+  padding: 6 16px;
+  font-family: Poppins;
+  display: block;
+  float: right;
+  font-size: 16pt;
 }

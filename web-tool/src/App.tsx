@@ -3,30 +3,7 @@ import Select from 'react-select';
 import Popup from 'reactjs-popup';
 import './index.css';
 import thresholds from './thresholds.json'
-
-const optionsMetrics = [
-  { label: 'BLEU', value: 'bleu' },
-  { label: 'spBLEU<sup>200</sup>', value: 'spBLEU200' },
-  { label: 'ChrF', value: 'chrf' },
-  { label: 'Comet<sup>20</sup>', value: 'comet20' },
-  { label: 'Comet<sup>21</sup><sub>QE</sub>', value: 'comet21qe' },
-  { label: 'Comet<sup>22</sup>', value: 'comet22' },
-  { label: 'CometKiwi<sup>22</sup>', value: 'cometkiwi22' },
-  { label: 'xComet<sup>XXL</sup>', value: 'xcomet-XXL' },
-  { label: 'BLEURT<sup>20</sup>', value: 'bleurt-20' },
-  { label: 'BLEURT<sup>default</sup>', value: 'bleurt-default' },
-];
-
-const BIBTEX = `
-@misc{kocmi2024thresholds,
-  title={Navigating the Metrics Maze: Score Magnitudes and Implications for Machine Translation Evaluation}, 
-  author={Tom Kocmi and Vilém Zouhar and Christian Federmann and Matt Post},
-  year={2024},
-  eprint={2401.06760},
-  archivePrefix={arXiv},
-  primaryClass={cs.CL}
-}
-`.trim()
+import {OptionsMetrics, DisclaimerBar } from './Config'
 
 const ACCURACY_POPUP = (
   <Popup trigger={<img src="question_circle.svg" className="question_circle"></img>} position="right center" offsetX={140}>
@@ -52,8 +29,10 @@ function ComputeDelta(accuracy: number, metric: string): number {
 function App() {
   const [MESSAGE_IN, SetMessageIn] = useState({
     delta: 1.25,
-    metric: optionsMetrics[0],
+    metric: OptionsMetrics[0],
   });
+
+  const [SHOW_OTHER_METRICS, ShowOtherMetrics] = useState(false);
 
 
   function SelectElement(options: { "label": string, "value": string }[], id: string) {
@@ -67,7 +46,7 @@ function App() {
         menuPosition="fixed"
         onChange={(change: any) => {
           if (id === "metric") {
-            let metric = optionsMetrics.filter((x) => x.label == change.label)[0]
+            let metric = OptionsMetrics.filter((x) => x.label == change.label)[0]
             SetMessageIn({ ...MESSAGE_IN, "metric": metric })
           }
         }}
@@ -93,8 +72,9 @@ function App() {
   let current_accuracy = ComputeAccuracy(MESSAGE_IN.delta, MESSAGE_IN.metric.value)
 
   let other_metrics = (
-    optionsMetrics
+    OptionsMetrics
       .filter((x) => x.label !== MESSAGE_IN.metric.label)
+      .filter((x) => SHOW_OTHER_METRICS || x.main)
       .map((x) => [x.label, Math.max(0, ComputeDelta(current_accuracy, x.value)).toFixed(x.value === "comet21qe" ? 3 : 2).replace("NaN", "✕")])
       .map((x) => <li>
         <span className="number_sector">+{x[1]}</span>&nbsp;
@@ -102,6 +82,17 @@ function App() {
         <span className="metric_sector" dangerouslySetInnerHTML={{ __html: `${x[0]}`}}></span>
       </li>)
   )
+
+  let show_other_button = <></>
+  if (!SHOW_OTHER_METRICS) {
+    show_other_button = (
+      <input
+          type="button"
+          value="Show other metrics"
+          onClick={ () => ShowOtherMetrics(true)}>
+        </input>
+    )
+  }
 
   let MESSAGE_OUT = (
     <div id="message_out">
@@ -123,8 +114,11 @@ function App() {
       <ul>
         {other_metrics}
       </ul>
+
+      {show_other_button}
     </div>
   )
+
 
   return (
     <div className="App">
@@ -150,20 +144,15 @@ function App() {
           }
         ></input>
         on
-        {SelectElement(optionsMetrics, "metric")}
+        {SelectElement(
+          OptionsMetrics.filter((x) => SHOW_OTHER_METRICS || x.main),
+          "metric")
+        }
         mean?
       </div>
       {MESSAGE_OUT}
-      <div id="DisclaimerBar">
-        All scores are multiplied by 100 (e.g. BLEU is from 0 to 100). <br></br>
-        Please read the <a href="https://arxiv.org/pdf/2401.06760.pdf">paper by Kocmi, Zouhar, Federmann, Post (2024)</a> to see how all of this works.
-        <Popup trigger={<span id="bibtex_button">BibTeX</span>} position="top center" offsetY={10}>
-          <div id="bibtex_popup"><pre>{BIBTEX}</pre></div>
-        </Popup>.
-        <a href="https://github.com/kocmitom/MT-Thresholds">Code</a>.
-      </div>
+      {DisclaimerBar}
     </div>
-
   );
 }
 
