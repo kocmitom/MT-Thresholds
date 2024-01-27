@@ -136,10 +136,16 @@ function App() {
           min="0" max="100" step="0.001"
           defaultValue="1.250"
           onInput={(change: any) => {
-            SetMessageIn({
-              ...MESSAGE_IN,
-              "delta": Number(change.target.value),
-            })
+            let value = Number(change.target.value)
+            if (value < change.target.min) {
+              value = 0;
+              change.target.value = 0;
+            } else if (value > change.target.max) {
+              value = 100;
+              change.target.value = 100;
+            } else {
+              SetMessageIn({...MESSAGE_IN, "delta": value,})
+            }
           }
           }
         ></input>
