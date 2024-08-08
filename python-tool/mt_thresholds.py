@@ -1,12 +1,14 @@
 import math
 import argparse
+import re
 
+RE_YEAR = re.compile("\d+")
 
-def check_metric_ok(metric):
+def _validate_metric(metric, original=None):
     if metric not in METRICS:
         raise Exception(
-            f"Invalid metric {metric}, please use any of the following: " + str(METRICS))
-
+            f"Invalid metric {metric if original is None else original}, please use any of the following: " + str(METRICS)
+        )
 
 def cmd_entry():
     args = argparse.ArgumentParser(
@@ -21,25 +23,42 @@ def cmd_entry():
         help="Given accuracy show deltas of another metric."
     )
     args = args.parse_args()
-    args.metric = args.metric.lower()
 
-    check_metric_ok(args.metric)
+    metric_normalized = args.metric
+    metric_normalized = metric_normalized.removeprefix("Unbabel/").lower().strip()
+    metric_normalized = metric_normalized.replace("-", "")
+
+    # attempt to normalize and allow various formats
+    if metric_normalized not in METRICS and "comet" in metric_normalized:
+        metric_normalized = metric_normalized.replace("da", "")
+
+        if "wmt" in metric_normalized:
+            metric_normalized = metric_normalized.replace("wmt", "")
+
+        if match := RE_YEAR.match(metric_normalized):
+            year = match.group()
+            metric_normalized = metric_normalized[:match.start()]+metric_normalized[match.end():]+year
+
+        if "qe" in metric_normalized:
+            metric_normalized = metric_normalized.replace("qe", "")+"qe"
+        
+    _validate_metric(metric_normalized, args.metric)
 
     if args.delta:
-        print(f"{delta(args.value, args.metric):.3f}")
+        print(f"{delta(args.value, metric_normalized):.3f}")
     else:
-        print(f"{accuracy(args.value, args.metric):.3f}")
+        print(f"{accuracy(args.value, metric_normalized):.3f}")
 
 
 def accuracy(delta: float, metric: str) -> float:
-    check_metric_ok(metric)
+    _validate_metric(metric)
 
     a, b = _thresholds[metric]
     return a * (1 / (1 + math.pow(math.e, -b * delta)))
 
 
 def delta(accuracy: float, metric: str) -> float:
-    check_metric_ok(metric)
+    _validate_metric(metric)
 
     a, b = _thresholds[metric]
     if accuracy < 0.5:
@@ -53,7 +72,7 @@ def delta(accuracy: float, metric: str) -> float:
         return math.nan
 
 
-_thresholds = {
+_thresholds_raw = {
     "bleu": [
         88.33333333333225,
         0.9663926931178954
@@ -61,6 +80,10 @@ _thresholds = {
     "chrf": [
         92.999999999972,
         1.1142732157139852
+    ],
+    "spBLEU101": [
+        84.58445492823891,
+        1.262507595109315
     ],
     "spBLEU200": [
         90.99999999998793,
@@ -70,7 +93,7 @@ _thresholds = {
         94.66666666666666,
         0.4947232832741672
     ],
-    "bleurt-20": [
+    "bleurt20": [
         98.33333333332963,
         1.3727206190931929
     ],
@@ -90,25 +113,21 @@ _thresholds = {
         98.88141616584615,
         2.719280643871758
     ],
-    "xcomet-XXL": [
+    "xcometXXL": [
         98.93432477039522,
         1.1629533711748128
     ],
-    "xcomet-XL": [
+    "xcometXL": [
         96.56738237041118,
         1.4535595865214588
     ],
-    "spBLEU101": [
-        84.58445492823891,
-        1.262507595109315
-    ],
-    "cometkiwi-xxl": [
+    "cometkiwiXXL": [
         96.23167242471065,
         1.2826577343149304
     ]
 }
 _thresholds = {
     k.lower(): v
-    for k, v in _thresholds.items()
+    for k, v in _thresholds_raw.items()
 }
-METRICS = set(_thresholds.keys())
+METRICS = {k.lower() for k in _thresholds_raw.keys()}

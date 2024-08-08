@@ -22,13 +22,16 @@ mt_thresholds.delta(0.63989, "chrf") # 0.665
 Notes for maintainers:
 
 cd python-tool
-# older version is required
-pip install 'build<0.10.0' twine
+pip install build twine
+
 python3 -m build
+
 twine check dist/*
+
 # first tets
 twine upload -r testpypi dist/*
+
 # live
-twine upload dist/*
+twine upload dist/* -u __token__
 # user __token__ as username and the API token generated online
 -->
