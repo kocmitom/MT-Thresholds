@@ -13,7 +13,11 @@ export const OptionsMetrics = [
     { main: false, label: 'spBLEU<sup>200</sup>', value: 'spBLEU200' },
     { main: false, label: 'spBLEU<sup>101</sup>', value: 'spBLEU101' },
     { main: false, label: 'xComet<sup>XL</sup>', value: 'xcomet-XL' },
+    { main: false, label: 'BertScore', value: 'bertscore' },
     { main: false, label: 'CometKiwi<sup>XXL</sup>', value: 'cometkiwi-xxl' },
+    { main: false, label: 'CometKiwi<sup>23 XL</sup><sub>SRC</sub>', value: 'cometkiwi23-xl-src' },
+    { main: false, label: 'MetricX<sup>23 large</sup>', value: 'metricx-23-large' },
+    { main: false, label: 'MetricX<sup>23 large</sup><sub>QE</sub>', value: 'metricx-23-qe-large' },
 ];
 
 export const BIBTEX = `
