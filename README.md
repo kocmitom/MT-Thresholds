@@ -21,7 +21,7 @@ Code for [Navigating the Metrics Maze: Reconciling Score Magnitudes and Accuraci
 ## [Web frontend](https://kocmitom.github.io/MT-Thresholds/)
 
 See the [MT thresholds tool](https://kocmitom.github.io/MT-Thresholds/).
-[![image](https://github.com/kocmitom/MT-Thresholds/assets/7661193/9146b993-554a-4aba-a93a-769d8799dce2)](#)
+[![image](https://github.com/kocmitom/MT-Thresholds/assets/7661193/9146b993-554a-4aba-a93a-769d8799dce2)](https://kocmitom.github.io/MT-Thresholds/)
 
 
 ## [Local tool](https://pypi.org/project/mt-thresholds/)
